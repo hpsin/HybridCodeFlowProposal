@@ -3,7 +3,7 @@
 
 ## Overview
 
-An application development pattern we've seen is one of combined front- and back-end authentication.  When the implicit flow was a recommended and feasible solution, applications would use the authorization code flow to authenticate the back=end, and then use the implicit flow to authenticate the front-end silently.  This resulted in a single auth prompt for users, a desired user experience.  
+An application development pattern we've seen is one of combined front- and back-end authentication, e.g. for server-side rendering of a single-page app.  When the implicit flow was a recommended and feasible solution, applications would use the authorization code flow to authenticate the back-end, and then use the implicit flow to authenticate the front-end silently.  This resulted in a single auth prompt for users, a desired user experience.  
 
 As privacy-conscious features in browsers block the use of 3rd party cookies, this pattern is no longer supported, and popular opinion on the implicit flow is turning.  Applications could do two separate code flows to authenticate the front- and back-end separately, but this set of redirects is unappealing for users. Instead, we propose an extension to the confidential client authorization code flow to allow the back-end to request a new authorization code suitable for redemption on the front-end.  
 
