@@ -10,7 +10,7 @@ As privacy-conscious features in browsers block the use of 3rd party cookies, th
 ## Assumptions inherent in this proposal
 
 1. The Microsoft application model allows application registrations to function as both public and confidential clients, on a per-redirect-URI model. This allows e.g. an email client to have a confidential client website, a public client native app, and an API with various scopes registered. While this document requires the client IDs of the front- and back-end apps to match, other platforms could authorize code redemption based on a family of client IDs.
-1. Microsoft's implementation of the browser-bound authorization code flow returns limited lifetime refresh tokens to the single-page app. This pattern allows the SPA to retrieve multiple tokens without interaction.  Application models that rely on fetching a new code per-token may consider extending this flow to allow repeated code requests using the confidential client refresh token to reduce interactive redirects to the login page.
+1. Microsoft's implementation of the browser-bound authorization code flow returns time-bound refresh tokens to the single-page app. This pattern allows the SPA to retrieve multiple tokens without interaction.  Application models that rely on fetching a new code per-token may consider extending this flow to allow repeated code requests using the confidential client refresh token to reduce interactive redirects to the login page.
 1. This document assumes that the STS and RP must exist on separate domains, so that 3rd-party cookie usage cannot be eliminated by reducing the number of domains in use.
 
 ## 1 - Authorize
@@ -123,7 +123,7 @@ Remark: no `redirect_uri` needs to be provided for this request, as the client-s
 | `token_type` | Indicates the token type value. |
 | `expires_in` | How long the access token is valid (in seconds). |
 | `scope` | The permissions associated with the returned access token. |
-| `refresh_token` | An OAuth 2.0 refresh token. Obtained token will be time-restricted to 1 day.|
+| `refresh_token` | An OAuth 2.0 refresh token.|
 | `id_token` | If the Authorize call in 1 used the `openid` scope, an ID token is returned pursuant OpenID Connect. |
 
 ### Error Response
