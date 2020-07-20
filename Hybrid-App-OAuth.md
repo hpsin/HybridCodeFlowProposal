@@ -31,7 +31,6 @@ Confidential client `authorize` call per standard OAuth 2.0 code flow specificat
     &client_id=2d4d11a2-f814-46a7-890a-274a72a7309e
     &code=AwABAAAAvPM1KaPlrEqd...
     &redirect_uri=https%3A%2F%2FRelyingParty.example%2Ftoken
-    &scope=https%3A%2F%2Fapi.service.example%data.read
     &return_public_code=1
 
 </code>
@@ -42,7 +41,6 @@ Confidential client `authorize` call per standard OAuth 2.0 code flow specificat
 | `client_id` | Application ID. |
 | `code` | The authorization_code acquired during the Authorize call. |
 | `redirect_uri` | A `Confidential` redirect_uri registered on the client application. |
-| `scope` | Optional. An authorized permission and resource for the access token. |
 | `return_public_code` | Flag to indicate that a public code is required. |
 
 ### Success Response
@@ -56,7 +54,6 @@ Confidential client `authorize` call per standard OAuth 2.0 code flow specificat
         "access_token": "eyJ0eXAi...",
         "token_type": "Bearer",
         "expires_in": 3600,
-        "expires_on": 1388444763,
         "scope": "https://api.service.example/data.read",
         "refresh_token": "AwABAAAAvPM1KaPl...",
         "public_code": "Asdfgjdfgdfib..."
@@ -70,7 +67,6 @@ Confidential client `authorize` call per standard OAuth 2.0 code flow specificat
 | `access_token` | The requested access token. |
 | `token_type` | Indicates the token type value. |
 | `expires_in` | How long the access token is valid (in seconds). |
-| `expires_on` | The time when the access token expires. |
 | `scope` | The permissions associated with the returned access token. |
 | `refresh_token` | An OAuth 2.0 refresh token. Tokens obtained via the Client-side PKCE Auth Code flow will be time-restricted to 1 day. |
 | `public_code` | An OAuth 2.0 authorization code to be redeemed for client-side tokens by the user-agent. Authorization code will be redeemable only by the same application. |
@@ -91,12 +87,11 @@ The `public_code` field included in the initial token response is included in th
     POST /token 
     Host: https://sts.example.com
     Content-Type: application/x-www-form-urlencoded
-    Origin: https://www.singlepageapplication.com
+    Origin: https://relyingparty.example
 
     grant_type=authorization_code
     &client_id=2d4d11a2-f814-46a7-890a-274a72a7309e
     &code=Asdfgjdfgdfib...
-    &scope=https%3A%2F%2Fapi.service.example%data.read
 
 </code>
 
@@ -105,7 +100,6 @@ The `public_code` field included in the initial token response is included in th
 | `grant_type` | Must be authorization_code for the authorization code flow. |
 | `client_id` | Application ID. |
 | `code` | The authorization_code acquired during the server-side `token` call. |
-| `scope` | Optional. An authorized permission and resource for the access token. |
 
 Remark: no `redirect_uri` needs to be provided for this request, as the client-side authorization code is obtained as part of a server-side redemption of a previous code. If, however, a `redirect_uri` is provided the server will perform a consistency check to ensure that it is of a type allowed to redeem codes as a public client.
 
@@ -123,7 +117,6 @@ Remark: no `redirect_uri` needs to be provided for this request, as the client-s
         "access_token": "eyJ0eXAi...",
         "token_type": "Bearer",
         "expires_in": 3600,
-        "expires_on": 1388444763,
         "scope": "https://api.service.example/data.read",
         "refresh_token": "AwABAAAAvPM1KaPl...",
         "id_token": "eyJ0eXAi...",
@@ -136,7 +129,6 @@ Remark: no `redirect_uri` needs to be provided for this request, as the client-s
 | `access_token` | The requested access token. |
 | `token_type` | Indicates the token type value. |
 | `expires_in` | How long the access token is valid (in seconds). |
-| `expires_on` | The time when the access token expires. |
 | `scope` | The permissions associated with the returned access token. |
 | `refresh_token` | An OAuth 2.0 refresh token. Obtained token will be time-restricted to 1 day.|
 | `id_token` | If requested using `openid` scope. |
